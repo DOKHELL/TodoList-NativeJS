@@ -1,11 +1,11 @@
 import { Http } from './../core/http';
-import { ENV } from './../config/config';
 
 export class AuthService {
     saveTodo(data) {
+        console.log(data)
         const http = new Http();
         return new Promise((resolve, reject) => {
-			http.post(`${ENV.apiUrl}/data`, {data})
+			http.post(`https://api.emailjs.com/api/v1.0/email/send`, data)
 			.then(response => {
                resolve(response)
 			})

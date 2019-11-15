@@ -8,8 +8,7 @@ export class Http {
                     'Content-type': 'application/json',
                 },
             })
-                .then(response => resolve(response))
-                .then(data => resolve(data))
+                .then(response => console.log(response))
                 .catch(err => reject(err));
         });
 	}

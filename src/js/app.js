@@ -1,5 +1,8 @@
 import css from '../css/css.css';
+import {AuthService} from './services/auth.service'; 
+import { ENV } from './config/config';
 
+const data = ENV;
 
 const text = document.querySelector('#inputForm');
 // buttns
@@ -12,7 +15,6 @@ const closeTips = document.querySelector('.closeTips');
 const todos = document.querySelector('.todos');
 const overlay = document.querySelector('#overlay');
 
-
 const addTodo = (e) => {
 	let value = text.value;
 	if (value.length < 3) {
@@ -20,7 +22,7 @@ const addTodo = (e) => {
 	}
 	todos.insertAdjacentHTML('beforeend', `<li><span class="todo-text">${value}</span><span class="todo-trash"><i class="fas fa-trash-alt"></i></span></li>`);
 	text.value = '';
-	saveTodoInJson();
+	//saveTodoInJson();
 }
 
 const addTodoKey = (e) => {
@@ -33,12 +35,12 @@ const addTodoKey = (e) => {
 const deleteTodo = (e) => {
  	if (e.target.className == 'fas fa-trash-alt') {
 		e.target.parentElement.parentElement.remove();
-		saveTodoInJson();
+		//saveTodoInJson();
 	 }
 }
 const clearAllTodo = (e) => {
 	todos.innerHTML = '';
-	saveTodoInJson();
+	//saveTodoInJson();
 }
 const showOverlay = (e) => {
 	overlay.className = 'height';
@@ -47,11 +49,14 @@ const closeOverlay = (e) => {
 	overlay.classList.remove('height');
 }
 const saveTodoInJson = (e) => {
-	let data = [];
+	const authService = new AuthService();
+	// console.log(authService.saveTodo(data));
+	 let datas = [];
 	for (let i = 0; i < todos.children.length; i++ ) {
-		data[i] = todos.children[i].innerText;
+		datas[i] = todos.children[i].innerText;
 	}
-	localStorage.setItem('todo_item', `${JSON.stringify(data)}`);
+	 data.template_params.message_html = JSON.stringify(datas.join(', '));
+	 authService.saveTodo(data);
 }
 const addTodoOnLoad = (e) => {
 	const storage = JSON.parse(localStorage.getItem('todo_item'));
